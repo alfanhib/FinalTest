@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { 
   Container, Content, Card, CardItem,
   List, ListItem, Text, Left, Right, 
-  Body, Spinner } from 'native-base';
+  Body, Spinner, Fab, Icon, Button
+} from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { allContacts } from '../actions';
@@ -21,19 +22,28 @@ class ContactsList extends Component{
             <Spinner color='red'/>
           ) : (
             this.props.contactsReducer.contacts.map((items, index) => (
-              <TouchableOpacity key={index} onPress={() => alert('You choose ' + items.name)}>
-                <Card key={index}>
+              <Card key={index}>
+                <TouchableOpacity onPress={() => alert(items.objectId)}>
                   <CardItem>
                     <Body>
                       <Text>{items.name}</Text>
                       <Text note>{items.phone}</Text>
                     </Body>
+                    <Button transparent onPress={() => alert("Edit")}>
+                      <Text note style={{color: '#3498db'}}>Edit</Text>
+                    </Button>
                   </CardItem>
-                </Card>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </Card>
             ))
           )}
         </Content>
+        <Fab
+          style={{ backgroundColor: '#5067FF' }}
+          position="bottomRight"
+          onPress={() => this.props.navigation.navigate('ContactAdd')}>
+          <Icon name="add" />
+        </Fab>
       </Container>
     );
   }
