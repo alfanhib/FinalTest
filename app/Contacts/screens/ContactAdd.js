@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { Container, Content } from 'native-base';
+import { connect } from 'react-redux';
 import axios from 'axios';
-import { allContacts } from '../actions';
+import { allContacts, postContact } from '../actions';
 
-import ContactsForm from '../components/ContactForm';
+import ContactsFrom from '../components/ContactsFrom';
 
-export default class ContactAdd extends Component{
+class ContactAdd extends Component{
   
   handleSubmit = (value) => {
-    axios({
-      method: 'post',
-      url: 'https://api.backendless.com/CCAA6E46-DD53-D1AD-FFEB-C86025D08A00/CE02CAAB-5E67-4063-FF0F-E77165DC0A00/data/contacts',
-      data: value
-    }).then(() => {
+    this.props.dispatch(postContact(value)).then(() => {
       this.props.dispatch(allContacts())
-      this.props.navigator.pop();
+      this.props.navigation.goBack()
     })
   }
 
@@ -22,10 +19,12 @@ export default class ContactAdd extends Component{
     return(
       <Container>
         <Content style={{padding: 10}}>
-          <ContactsForm { ...this.props } onSubmit={ this.handleSubmit }/>
+          <ContactsFrom { ...this.props } onSubmit={ this.handleSubmit }/>
         </Content>
       </Container>
     );
   }
 
 }
+
+export default connect()(ContactAdd)

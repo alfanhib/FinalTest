@@ -15,7 +15,7 @@ const RootNavigator = StackNavigator({
     navigationOptions:{
       title: 'Add new contact'
     }
-  }
+  },
 })
 
 export default RootNavigator;
